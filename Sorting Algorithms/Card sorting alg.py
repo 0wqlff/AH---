@@ -19,10 +19,10 @@ def build_deck():
     return thesecards
 
 def draw_cards(thesecards):
-    dealtcards = [card() for index in range(10)]
+    dealtcards = [card() for index in range(4)]
     selectednums = []
     # pick 10 to return
-    for index in range(10):
+    for index in range(4):
         selectednum = random.randint(0,51)
         while selectednum in selectednums:
             selectednum = random.randint(0,51)
@@ -35,6 +35,7 @@ def display_cards(cardarray):
         output = cardarray[index].suit
         output = output + " : " + str(cardarray[index].value)
         print(output)
+    print()
 
 def init_suit(deck):
     suits = ["hearts","clubs","diamonds","spades"]
@@ -43,23 +44,47 @@ def init_suit(deck):
     return deck
 
 def sort_cards(deck):
-    init_suit(deck)
-    current=deck[1]
-    for i in range(deck):
-        while deck[i].size<deck[i-1].size:
-            store=deck[i-1]
-            deck[i-1]=deck[i]
-            deck[i]=deck[i-1]
-    print(deck)
+
+    current=1
+    swaps=0
+    swapcheck=False
+    noswaps=0
+
+    while current<len(deck):
+        position=current
+
+
+        while deck[position].suitval < deck[position-1].suitval and position>0:
+            deck[position],deck[position-1]=deck[position-1],deck[position]
+            swaps+=1
+            swapcheck=True
+            position-=1
+            display_cards(deck)
+            print()
+
+        if swapcheck==False:
+            display_cards(deck)
+            print("noswap")
+            noswaps+=1
+            print()
+        swapcheck=False
+        current+=1
+
+    print(f"{swaps} swaps were made, {noswaps} no swaps were made")
 
 
 
 # main program
-cards = [card() for index in range(10)]
+cards = [card() for index in range(4)]
 allcards = [card() for index in range(52)]
+
+
 allcards = build_deck()
 cards = draw_cards(allcards)
+
+init_suit(cards)
 display_cards(cards)
+sort_cards(cards)
 
 # cards = sort_cards()
 # display_cards(cards)
