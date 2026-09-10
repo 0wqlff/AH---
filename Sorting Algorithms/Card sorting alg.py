@@ -59,7 +59,6 @@ def sort_cards(deck):
             swaps+=1
             swapcheck=True
             position-=1
-            display_cards(deck)
             print()
 
         if swapcheck==False:
